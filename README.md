@@ -2,9 +2,11 @@
 EM24 Victron Emulation mit C#
 
 Der WR ist ein HUAWEI SUN2000-17KTL-M5, verbunden mit Modbus RTU und per WAVESHARE RS485 to RJ45 zu ModbusTCP gewandelt 
+
+
 ![Screenshot 2025-04-26 124717](https://github.com/user-attachments/assets/c9acb060-d0ac-41ae-a6f0-1bf05c0a3973)
 
-Das Grid wird vor der Verbidnug zum Netzbetreiber per Siemens PAC2200 gemessen.
+Das Grid wird vor der Verbidnug zum Netzbetreiber per Siemens PAC2200 gemessen, der PAC2200 kann per ModbusTCP oder per API Schnittstelle bedient werden.
 
 
 VRM Portal Dashboard
@@ -24,6 +26,9 @@ WR:
 Werte in Victron Device
 
 Auf Multiplus II GX einlogen per ssh als root:
+
+Folgende dBus Register sind vorhanden und können eingesehen werden:
+
 ```bash
 root@nanopi:~# dbus -y
 org.freedesktop.DBus
