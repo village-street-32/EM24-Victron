@@ -5,14 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EasyModbus;
-using HomeAutomation.Client.Context;
 
 namespace HomeAutomation.Client.Backgroundworker
 {
     public class LoopModbusMaster
     {
-        private static BackgroundWorker _worker;
-        public static bool ResetCount = false;
         private static ModbusServer modbusServer = new ModbusServer();
         public static double EM24_U1;
         public static double EM24_U2;
@@ -62,36 +59,8 @@ namespace HomeAutomation.Client.Backgroundworker
         public static double EM24_PF_L3;
         public static double EM24_PF_SUM;
 
-        public void Execute()
+        public void EM24()
         {
-            _worker = new BackgroundWorker();
-            _worker.DoWork += worker_DoWorkLoop;
-            _worker.RunWorkerCompleted += worker_RunWorkerCompletedLoop;
-            _worker.ProgressChanged += worker_ProgressChanged;
-
-            modbusServer.Listen();
-
-            _worker.RunWorkerAsync();
-            _worker.WorkerReportsProgress = true;
-
-        }
-        private static void worker_DoWorkLoop(object sender, DoWorkEventArgs e)
-        {
-            var time = DateTime.Now;
-            var appStatusTask = AppCtx.ReadAppStatusTaskWithName("LoopModbusMaster");
-
-            //Task OnOff
-            if (appStatusTask.TaskOnOff == 0)
-            {
-                appStatusTask.CycleTime = (Convert.ToDouble(DateTime.Now.Ticks - time.Ticks)) / 10000;
-                AppCtx.Update(appStatusTask);
-                return;
-            }
-
-            appStatusTask.StartTime = DateTime.Now;
-
-            try
-            {
                 ModbusServer.HoldingRegisters regs = modbusServer.holdingRegisters;
                 regs[40961] = 0x07; // application set to H
                 regs[771] = 8 * 256 + 1 * 256 + 1; // hardware version
@@ -236,42 +205,7 @@ namespace HomeAutomation.Client.Backgroundworker
                 value = Convert.ToInt32(EM24_EtotMinusKvarh * -10);
                 regs[81] = (Int16)(value & 0xFFFF);
                 regs[82] = (Int16)(value >> 16);
-
-
-
-
-
-
-            }
-            catch (Exception a)
-            {
-                appStatusTask.StatusDevice = 0;
-                Logger.Logger.WriteSyslog("LoopModbusMaster " + a, "error");
-                if (appStatusTask.CountsError == null)
-                {
-                    appStatusTask.CountsError = 0;
-                }
-                if (ResetCount)
-                {
-                    appStatusTask.CountsError = 0;
-                    ResetCount = false;
-                }
-                else
-                {
-                    appStatusTask.CountsError++;
-                }
-            }
-            appStatusTask.CycleTime = (Convert.ToDouble(DateTime.Now.Ticks - time.Ticks)) / 10000;
-            AppCtx.Update(appStatusTask);
-        }
-        private static void worker_RunWorkerCompletedLoop(object sender, RunWorkerCompletedEventArgs e)
-        {
-            _worker.RunWorkerAsync();
-        }
-
-        private static void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-
+           
         }
     }
 }
