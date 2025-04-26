@@ -1,15 +1,16 @@
 # EM24-Victron
 EM24 Victron Emulation mit C#
 
-Der WR ist ein HUAWEI SUN2000-17KTL-M5, verbunden mit Modbus RTU und per WAVESHARE RS485 to RJ45 zu ModbusTCP gewandelt 
-
+## WR  SUN2000-17KTL-M5
+Der WR ist ein HUAWEI SUN2000-17KTL-M5, verbunden mit Modbus RTU und per WAVESHARE RS485 to RJ45 zu ModbusTCP gewandelt. [Modbus Read WR](src/ModbusSun2000.cs) 
 
 ![Screenshot 2025-04-26 124717](https://github.com/user-attachments/assets/c9acb060-d0ac-41ae-a6f0-1bf05c0a3973)
 
-Das Grid wird vor der Verbidnug zum Netzbetreiber per Siemens PAC2200 gemessen, der PAC2200 kann per ModbusTCP oder per API Schnittstelle bedient werden.
+## GRID Siemens PAC2200
+Das Grid wird vor der Verbidnug zum Netzbetreiber per Siemens PAC2200 gemessen, der PAC2200 kann per ModbusTCP [Modbus Read GRID](src/ModbusPAC2200.cs)  oder per API Schnittstelle [API Read GRID](src/Pac2200_RESTAPI.cs)  bedient werden. 
 
 
-VRM Portal Dashboard
+## VRM Portal Dashboard
 
 ![Screenshot 2025-04-26 123152](https://github.com/user-attachments/assets/0ad7c0cd-69fe-4c2c-a715-bb09d78c0d85)
 ![Screenshot 2025-04-26 123210](https://github.com/user-attachments/assets/16454533-de1b-47ba-9bd8-2d597bdaeef9)
@@ -23,7 +24,9 @@ WR:
 ![Screenshot 2025-04-26 123245](https://github.com/user-attachments/assets/44f546d4-6f75-4b18-b010-676b044147b0)
 
 
-Werte in Victron Device
+## Werte in Victron Device
+
+Der Modbus Master wird mit [API Read GRID](src/LoopModbusMaster.cs) dem Multiplus II GX zur verfügung gestellt.
 
 Auf Multiplus II GX einlogen per ssh als root:
 
