@@ -3,7 +3,7 @@ EM24 Victron
 
 Werte in Victron Device
 Auf Multiplus II GX einlogen per ssh als root:
-'''
+```bash
 root@nanopi:~# dbus -y
 org.freedesktop.DBus
 com.victronenergy.hub4
@@ -24,5 +24,3 @@ fi.w1.wpa_supplicant1
 com.victronenergy.logger
 com.victronenergy.adc
 com.victronenergy.modbustcp
-
-  
